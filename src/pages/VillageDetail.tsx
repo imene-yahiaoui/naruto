@@ -24,9 +24,12 @@ const VillageDetail: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`https://narutodb.xyz/api/village/${id}`);
+      const response = await axios.get(
+        `https://narutodb.xyz/api/village/${id}`
+      );
       setVillage(response.data);
     } catch (err) {
+      console.log(err);
       setError("Erreur lors de la récupération des détails du village.");
     } finally {
       setLoading(false);
@@ -38,19 +41,12 @@ const VillageDetail: React.FC = () => {
   }, [id]);
 
   if (loading) return <div className="text-center mt-8">Chargement...</div>;
-  if (error)
-    return <div className="text-center text-red-500">{error}</div>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
   if (!village)
     return <div className="text-center mt-8">Village introuvable.</div>;
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      <div
-        className="h-64 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${village.characters[0]?.images?.[0] || "/placeholder.jpg"})`,
-        }}
-      ></div>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-orange-500 mb-4">
           {village.name}

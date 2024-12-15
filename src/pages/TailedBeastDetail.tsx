@@ -38,7 +38,7 @@ const TailedBeastDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
       <div
-        className="h-64 bg-cover bg-center relative"
+        className="h-64 bg-contain bg-center bg-no-repeat relative"
         style={{
           backgroundImage: `url(${beast.images[0] || "/placeholder.jpg"})`,
         }}

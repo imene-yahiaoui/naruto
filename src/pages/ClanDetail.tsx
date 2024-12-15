@@ -29,6 +29,7 @@ const ClanDetail: React.FC = () => {
       ); // Assurez-vous que cette API retourne les détails d'un clan
       setClan(response.data);
     } catch (err) {
+      console.log(err)
       setError("Erreur lors de la récupération des détails du clan.");
     } finally {
       setLoading(false);
@@ -48,7 +49,7 @@ const ClanDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
       {/* Section d'en-tête */}
-      <div className="h-64 bg-cover bg-center relative" style={{
+      <div className="h-64 bg-contain bg-center bg-no-repeat relative" style={{
         backgroundImage: `url(${clan.characters[0]?.images[0] || "/placeholder.jpg"})`
       }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

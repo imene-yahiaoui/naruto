@@ -54,7 +54,7 @@ export default function Home() {
                   <Link to="/characters">Explorer les personnages</Link>
                 </Button>
                 <Button variant="outline" size="lg">
-                  <Link to="/jutsus">Découvrir les Jutsus</Link>
+                  <Link to="/village">Découvrir les Villages</Link>
                 </Button>
               </div>
             </div>

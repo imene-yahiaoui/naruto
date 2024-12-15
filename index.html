@@ -1,13 +1,98 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!Doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/webp" href="/images/icon.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Metadata -->
+  <meta name="description"
+    content="Explore the NarutoVerse - Characters, Villages, Clans, and Tailed Beasts. Dive into the world of ninjas and powerful jutsus!" />
+  <meta name="keywords" content="Naruto, NarutoVerse, Ninja, Jutsu, Clans, Villages, Tailed Beasts" />
+  <meta name="author" content="Sadek and his mother ❤️" />
+
+  <!-- Open Graph Metadata -->
+  <meta property="og:title" content="NarutoVerse - Explore the Ninja World" />
+  <meta property="og:description"
+    content="Discover the NarutoVerse with its powerful ninjas, jutsus, clans, and more!" />
+  <meta property="og:image" content="/images/og-image.webp" />
+  <meta property="og:url" content="https://yourwebsite.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NarutoVerse - Explore the Ninja World" />
+  <meta name="twitter:description"
+    content="Discover the NarutoVerse with its powerful ninjas, jutsus, clans, and more!" />
+  <meta name="twitter:image" content="/images/og-image.webp" />
+
+  <!-- Performance -->
+  <link rel="preload" href="/fonts/naruto-font.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Page Title -->
+  <title>NarutoVerse - Explore the Ninja World</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/styles/main.css" />
+
+  <!-- Manifest for PWA -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Service Worker -->
+  <script>
+    if('serviceWorker' in navigator) {
+      window.addEventListener('load',() => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => console.error('Service Worker registration failed:',err));
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GR66G5CGCY"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js',new Date());
+    gtag('config','G-GR66G5CGCY');
+  </script>
+
+  <!-- Main JavaScript -->
+  <script type="module" src="/src/main.tsx"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import {getAnalytics} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig={
+      apiKey: "AIzaSyBlUMgoVnMupv25bhxWMO8xe8BWuU9RxPE",
+      authDomain: "naruto-9f3cf.firebaseapp.com",
+      projectId: "naruto-9f3cf",
+      storageBucket: "naruto-9f3cf.firebasestorage.app",
+      messagingSenderId: "774679949074",
+      appId: "1:774679949074:web:260f51e8283afc10b04dcb",
+      measurementId: "G-GR66G5CGCY"
+    };
+
+    // Initialize Firebase
+    const app=initializeApp(firebaseConfig);
+    const analytics=getAnalytics(app);
+  </script>
+</body>
+
 </html>
