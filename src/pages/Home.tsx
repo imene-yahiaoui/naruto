@@ -20,7 +20,7 @@ export default function Home() {
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des personnages :",
-          error
+          error,
         );
       } finally {
         setLoading(false);
@@ -31,7 +31,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gray-50">
       {/* Section d'accueil */}
       <div
         className="relative bg-cover bg-center h-[600px]"
@@ -54,7 +54,7 @@ export default function Home() {
                   <Link to="/characters">Explorer les personnages</Link>
                 </Button>
                 <Button variant="outline" size="lg">
-                  <Link to="/village">Découvrir les Villages</Link>
+                  <Link to="/villages">Découvrir les Villages</Link>
                 </Button>
               </div>
             </div>

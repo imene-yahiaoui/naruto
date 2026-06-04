@@ -1,57 +1,144 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import de Link pour la navigation
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-interface Village {
+interface Character {
   id: number;
   name: string;
-  characters: {
-    id: number;
-    name: string;
-    images: string[];
-  }[];
+  images?: string[];
 }
 
+interface VillageApi {
+  id: number;
+  name: string;
+  characters: number[];
+}
+
+interface VillageView {
+  id: number;
+  name: string;
+  characterIds: number[];
+  previewCharacters: Character[];
+}
+
+interface VillagesResponse {
+  villages: VillageApi[];
+  currentPage: number;
+  pageSize: number;
+  total: number;
+}
+
+const API_BASE_URL = "https://dattebayo-api.onrender.com";
+const LIMIT = 8;
+
 const Villages: React.FC = () => {
-  const [villages, setVillages] = useState<Village[]>([]);
+  const [villages, setVillages] = useState<VillageView[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalVillages, setTotalVillages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchVillages = async () => {
+  const totalPages = Math.ceil(totalVillages / LIMIT);
+
+  const fetchCharacterById = async (id: number): Promise<Character | null> => {
+    try {
+      const response = await axios.get<Character>(
+        `${API_BASE_URL}/characters/${id}`
+      );
+
+      return response.data;
+    } catch (error) {
+      console.warn(`Impossible de récupérer le personnage ${id}`, error);
+      return null;
+    }
+  };
+
+  const fetchVillages = async (page: number) => {
     setLoading(true);
     setError(null);
+
     try {
-      const response = await axios.get(
-        "https://narutodb.xyz/api/village?page=1&limit=12"
+      const response = await axios.get<VillagesResponse>(
+        `${API_BASE_URL}/villages`,
+        {
+          params: {
+            page,
+            limit: LIMIT,
+          },
+        }
       );
-      setVillages(response.data.villages);
+
+      const apiVillages = response.data.villages ?? [];
+
+      const enrichedVillages = await Promise.all(
+        apiVillages.map(async (village) => {
+          const characterIds = village.characters ?? [];
+
+          const previewCharactersResult = await Promise.all(
+            characterIds.slice(0, 3).map((id) => fetchCharacterById(id))
+          );
+
+          const previewCharacters = previewCharactersResult.filter(
+            (character): character is Character => character !== null
+          );
+
+          return {
+            id: village.id,
+            name: village.name,
+            characterIds,
+            previewCharacters,
+          };
+        })
+      );
+
+      setVillages(enrichedVillages);
+      setTotalVillages(response.data.total ?? 0);
     } catch (err) {
+      console.error("Erreur villages :", err);
       setError("Erreur lors de la récupération des villages.");
+      setVillages([]);
+      setTotalVillages(0);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchVillages();
-  }, []);
+    fetchVillages(currentPage);
+  }, [currentPage]);
 
   const filteredVillages = villages.filter((village) =>
     village.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <div className="text-center mt-8">Chargement...</div>;
-  if (error) return <div className="text-center text-red-500">{error}</div>;
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  if (loading) {
+    return <div className="text-center mt-8">Chargement...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500 mt-8">{error}</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-[url('/path-to-naruto-background.jpg')] bg-cover text-gray-800">
+    <div className=" bg-gray-100 text-gray-800">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8 text-center text-orange-500">
           Villages Ninja
         </h1>
 
-        {/* Barre de recherche */}
         <div className="flex justify-center mb-8">
           <input
             type="text"
@@ -62,54 +149,81 @@ const Villages: React.FC = () => {
           />
         </div>
 
-        {/* Liste des villages */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {filteredVillages.map((village) => (
-            <Link
-              to={`/villages/${village.id}`}
-              key={village.id}
-              className="block bg-black bg-opacity-70 rounded-lg shadow-lg overflow-hidden"
-            >
-              <div
-                className="h-40 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${village.characters[0]?.images?.[0] || "/placeholder.jpg"})`,
-                }}
-              ></div>
-              <div className="p-4">
-                <h2 className="text-2xl font-bold text-orange-400 mb-4">
-                  {village.name}
-                </h2>
+        {filteredVillages.length === 0 ? (
+          <p className="text-center text-gray-500">Aucun village trouvé.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {filteredVillages.map((village) => (
+              <Link
+                to={`/villages/${village.id}`}
+                key={village.id}
+                className="block bg-black bg-opacity-70 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300"
+              >
+                <div className="h-full min-h-[300px] p-4 flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-orange-400 mb-4">
+                      {village.name}
+                    </h2>
 
-                {/* Liste des personnages */}
-                <div className="space-y-4">
-                  {village.characters.slice(0, 3).map((character) => (
-                    <div
-                      key={character.id}
-                      className="flex items-center space-x-4"
-                    >
-                      <img
-                        src={character.images?.[0] || "/placeholder.jpg"}
-                        alt={character.name}
-                        className="w-16 h-16 rounded-full border-2 border-orange-500"
-                      />
-                      <div>
-                        <h3 className="text-lg font-semibold">
-                          {character.name}
-                        </h3>
+                    <p className="text-sm text-gray-200 mb-4">
+                      {village.characterIds.length > 0
+                        ? `${village.characterIds.length} personnages liés`
+                        : "Aucun personnage disponible."}
+                    </p>
+
+                    {village.previewCharacters.length > 0 && (
+                      <div className="space-y-3">
+                        {village.previewCharacters.map((character) => (
+                          <div
+                            key={character.id}
+                            className="flex items-center gap-3 rounded-md bg-white bg-opacity-10 p-2"
+                          >
+                            <img
+                              src={character.images?.[0] || "/placeholder.jpg"}
+                              alt={character.name}
+                              className="w-12 h-12 rounded-full border-2 border-orange-500 object-cover"
+                            />
+
+                            <p className="text-sm text-white font-medium">
+                              {character.name}
+                            </p>
+                          </div>
+                        ))}
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    )}
+                  </div>
 
-                {village.characters.length > 3 && (
-                  <p className="mt-4 text-sm text-gray-300">
-                    ...et {village.characters.length - 3} autres personnages
-                  </p>
-                )}
-              </div>
-            </Link>
-          ))}
+                  {village.characterIds.length > 3 && (
+                    <p className="mt-4 text-sm text-gray-300">
+                      ...et {village.characterIds.length - 3} autres personnages
+                    </p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <div className="flex justify-center items-center gap-4 mt-10">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 rounded-md bg-orange-500 text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            Précédent
+          </button>
+
+          <span className="font-semibold text-lg">
+            Page {currentPage} / {totalPages || 1}
+          </span>
+
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage >= totalPages}
+            className="px-4 py-2 rounded-md bg-orange-500 text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            Suivant
+          </button>
         </div>
       </div>
     </div>

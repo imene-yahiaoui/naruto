@@ -13,12 +13,12 @@ import Footer from "./components/footer";
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="  bg-gray-50">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/characters" element={<Characters />} />
-          <Route path="/village" element={<Vilage />} />
+          <Route path="/villages" element={<Vilage />} />
           <Route path="/clans" element={<Clans />} />
           <Route path="/clans" element={<Clans />} />
           <Route path="/characters/:id" element={<CharacterDetail />} />
@@ -26,7 +26,6 @@ function App() {
           <Route path="/clans/:id" element={<ClanDetail />} />
           <Route path="/tailed-beasts" element={<TailedBeasts />} />
           <Route path="/tailed-beasts/:id" element={<TailedBeastDetail />} />
-          
         </Routes>
         <Footer />
       </div>

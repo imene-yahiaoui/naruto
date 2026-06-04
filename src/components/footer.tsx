@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white shadow-lg">
+      {/* <nav className="bg-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -24,7 +24,7 @@ export default function Navbar() {
                   Personnages
                 </Link>
                 <Link
-                  to="/village"
+                  to="/villages"
                   className="text-gray-700 hover:text-orange-600 px-3 py-2 rounded-md font-medium"
                 >
                   Villages
@@ -56,38 +56,38 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Menu mobile */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                to="/characters"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
-              >
-                Personnages
-              </Link>
-              <Link
-                to="/village"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
-              >
-                Villages
-              </Link>
-              <Link
-                to="/clans"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
-              >
-                Clans
-              </Link>
-              <Link
-                to="/tailed-beasts"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
-              >
-                Bijū
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
+   
+      //   {isMenuOpen && (
+      //     <div className="md:hidden">
+      //       <div className="px-2 pt-2 pb-3 space-y-1">
+      //         <Link
+      //           to="/characters"
+      //           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
+      //         >
+      //           Personnages
+      //         </Link>
+      //         <Link
+      //           to="/villages"
+      //           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
+      //         >
+      //           Villages
+      //         </Link>
+      //         <Link
+      //           to="/clans"
+      //           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
+      //         >
+      //           Clans
+      //         </Link>
+      //         <Link
+      //           to="/tailed-beasts"
+      //           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-gray-50"
+      //         >
+      //           Bijū
+      //         </Link>
+      //       </div>
+      //     </div>
+      //   )}
+      // </nav> */}
 
       {/* Footer */}
       <footer className="bg-black text-white mt-8 py-4">
@@ -96,8 +96,11 @@ export default function Navbar() {
             Développé avec <span className="text-red-500">❤</span> par Sadek et
             sa maman
           </p>
+          <p className="text-sm text-gray-400 mt-2 text-center">
+            Mission accomplie le 15 décembre 2024🌀
+          </p>
           <p className="text-sm text-gray-400 mt-2">
-            © {new Date().getFullYear()} NarutoVerse. Tous droits réservés.
+            © {new Date().getFullYear()} NarutoVerse. Tous droits réservés
           </p>
         </div>
       </footer>
