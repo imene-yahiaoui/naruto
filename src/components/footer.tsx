@@ -90,7 +90,7 @@ export default function Navbar() {
       // </nav> */}
 
       {/* Footer */}
-      <footer className="bg-black text-white mt-8 py-4">
+      <footer className="bg-black text-white py-4">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center">
           <p className="text-center text-orange-400">
             Développé avec <span className="text-red-500">❤</span> par Sadek et
