@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 interface Character {
   id: number;
   name: string;
@@ -155,7 +155,7 @@ const Clans: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {filteredClans.map((clan) => {
               const firstImage =
-                clan.previewCharacters[0]?.images?.[0] || "/placeholder.jpg";
+                clan.previewCharacters[0]?.images?.[0] || fallbackImage;
 
               return (
                 <Link
@@ -191,7 +191,7 @@ const Clans: React.FC = () => {
                             <div className="w-16 h-16 rounded-full border-2 border-yellow-400 overflow-hidden bg-gray-800">
                               <img
                                 src={
-                                  character.images?.[0] || "/placeholder.jpg"
+                                  character.images?.[0] || fallbackImage
                                 }
                                 alt={character.name}
                                 className="w-full h-full object-cover"

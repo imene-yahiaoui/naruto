@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Button from "../components/ui/Button";
+import fallbackImage from "../images/fallback-naruto.jpg";
 
 interface Character {
   id: number;
@@ -28,6 +29,21 @@ const Characters: React.FC = () => {
 
   const totalPages = Math.ceil(totalCharacters / LIMIT);
 
+  const getCharacterImage = (character: Character) => {
+    const image = character.images?.[0];
+
+    if (!image) {
+      return fallbackImage;
+    }
+
+    if (image.includes("static.wikia.nocookie.net")) {
+      const cleanImage = image.split("/revision/")[0].split("?")[0];
+      return `${cleanImage}/revision/latest`;
+    }
+
+    return image;
+  };
+
   const fetchCharacters = async (page: number) => {
     setLoading(true);
     setError(null);
@@ -40,7 +56,7 @@ const Characters: React.FC = () => {
             page,
             limit: LIMIT,
           },
-        },
+        }
       );
 
       setCharacters(response.data.characters ?? []);
@@ -72,7 +88,7 @@ const Characters: React.FC = () => {
   };
 
   return (
-    <div className=" bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-6">Personnages</h1>
 
@@ -92,12 +108,18 @@ const Characters: React.FC = () => {
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 hover:scale-105 transition-transform duration-300"
               >
                 <img
-                  src={character.images?.[0] || "/placeholder.jpg"}
+                  src={getCharacterImage(character)}
                   alt={character.name || "Personnage inconnu"}
                   className="w-full h-40 object-cover rounded-md mb-4 bg-gray-200 dark:bg-gray-700"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = fallbackImage;
+                  }}
                 />
 
-                <h2 className="text-xl font-semibold mb-4">{character.name}</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                  {character.name || "Personnage inconnu"}
+                </h2>
 
                 <Button variant="outline" className="w-full">
                   <Link to={`/characters/${character.id}`}>

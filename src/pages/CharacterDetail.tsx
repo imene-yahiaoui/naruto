@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchCharacterById } from "../services/api";
 import type { Character } from "../types/api";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 const CharacterDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -74,7 +74,7 @@ const CharacterDetail: React.FC = () => {
 
         <div className="bg-black bg-opacity-70 rounded-lg shadow-lg overflow-hidden text-white">
           <img
-            src={character.images?.[0] || "/placeholder.jpg"}
+            src={character.images?.[0] || fallbackImage}
             alt={character.name || "Personnage inconnu"}
             className="w-full h-80 object-contain border-b-4 border-yellow-400 bg-gray-800"
           />

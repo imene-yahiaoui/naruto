@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 interface TailedBeast {
   id: number;
   name: string;
@@ -118,7 +118,7 @@ const TailedBeasts: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {tailedBeasts.map((beast) => {
-              const image = beast.images?.[0] || "/placeholder.jpg";
+              const image = beast.images?.[0] || fallbackImage;
               const classification =
                 beast.personal?.classification || "Aucune classification disponible.";
               const species = beast.personal?.species || "Espèce inconnue";

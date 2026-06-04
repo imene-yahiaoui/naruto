@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 interface TailedBeast {
   id: number;
   name: string;
@@ -100,7 +100,7 @@ const TailedBeastDetail: React.FC = () => {
     return <div className="text-center mt-8">Bijuu introuvable.</div>;
   }
 
-  const image = beast.images?.[0] || "/placeholder.jpg";
+  const image = beast.images?.[0] || fallbackImage;
   const jinchuriki = beast.personal?.jinchūriki ?? [];
 
   return (

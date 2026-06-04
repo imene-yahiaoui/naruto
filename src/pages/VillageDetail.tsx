@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-
+import fallbackImage from "../images/icon.webp";
 interface Character {
   id: number;
   name: string;
@@ -143,7 +143,7 @@ const VillageDetail: React.FC = () => {
                 className="bg-black bg-opacity-70 rounded-lg shadow-lg p-4 text-white hover:scale-105 transition-transform duration-300"
               >
                 <img
-                  src={character.images?.[0] || "/placeholder.jpg"}
+                  src={character.images?.[0] || fallbackImage}
                   alt={character.name}
                   className="w-full h-48 object-cover rounded-md mb-4 bg-gray-800"
                 />

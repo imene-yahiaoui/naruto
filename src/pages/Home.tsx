@@ -4,11 +4,11 @@ import { Scroll, Swords, Users, Zap } from "lucide-react";
 import Button from "../components/ui/Button";
 import type { Character } from "../types/api";
 import { fetchCharacters } from "../services/api";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 export default function Home() {
   const [featuredCharacters, setFeaturedCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
-
+ 
   useEffect(() => {
     const fetchFeaturedCharacters = async () => {
       try {
@@ -112,35 +112,38 @@ export default function Home() {
             <div className="text-center">Chargement...</div>
           ) : featuredCharacters.length > 0 ? (
             <div className="grid md:grid-cols-4 gap-8">
-              {/* <p>sadek sofia  sadek2 imene naroto princesse sofia sadek lel</p> */}
               {featuredCharacters.map((character) => (
                 <div
                   key={character.id}
                   className="bg-white rounded-lg shadow-md overflow-hidden"
                 >
                   <img
-                    src={
-                      character.images?.[0] ||
-                      "https://via.placeholder.com/300x400"
-                    }
+                    src={character.images?.[0] || fallbackImage}
                     alt={character.name || "Image du personnage"}
                     className="w-full h-64 object-cover"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = fallbackImage;
+                    }}
                   />
-                  <dis className="p-4">
+
+                  <div className="p-4">
                     <h3 className="text-xl font-semibold mb-2">
                       {character.name || "Personnage inconnu"}
                     </h3>
+
                     <p className="text-gray-600 mb-4">
                       {character.personal?.clan
                         ? `Clan ${character.personal.clan}`
                         : "Clan inconnu"}
                     </p>
+
                     <Button variant="outline" className="w-full">
                       <Link to={`/characters/${character.id}`}>
                         Voir les détails
                       </Link>
                     </Button>
-                  </dis>
+                  </div>
                 </div>
               ))}
             </div>

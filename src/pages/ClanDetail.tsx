@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-
+import fallbackImage from "../images/fallback-naruto.jpg";
 interface Character {
   id: number;
   name: string;
@@ -101,7 +101,7 @@ const ClanDetail: React.FC = () => {
     return <div className="text-center mt-8">Clan introuvable.</div>;
   }
 
-  const headerImage = clan.characters[0]?.images?.[0] || "/placeholder.jpg";
+  const headerImage = clan.characters[0]?.images?.[0] || fallbackImage;
 
   return (
     <div className=" bg-gray-900 text-gray-100">
@@ -154,7 +154,7 @@ const ClanDetail: React.FC = () => {
                   className="bg-black bg-opacity-70 rounded-lg shadow-lg p-4 text-white hover:scale-105 transition-transform duration-300"
                 >
                   <img
-                    src={character.images?.[0] || "/placeholder.jpg"}
+                    src={character.images?.[0] || fallbackImage}
                     alt={character.name}
                     className="w-full h-40 object-cover rounded-md mb-4 bg-gray-800"
                   />
