@@ -5,10 +5,11 @@ import Button from "../components/ui/Button";
 import type { Character } from "../types/api";
 import { fetchCharacters } from "../services/api";
 import fallbackImage from "../images/fallback-naruto.jpg";
+import heroImage from "../images/image.png";
 export default function Home() {
   const [featuredCharacters, setFeaturedCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
- 
+
   useEffect(() => {
     const fetchFeaturedCharacters = async () => {
       try {
@@ -36,7 +37,7 @@ export default function Home() {
       <div
         className="relative bg-cover bg-center h-[600px]"
         style={{
-          backgroundImage: 'url("./../images/image.png")',
+          backgroundImage: `url(${heroImage})`,
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-60">
